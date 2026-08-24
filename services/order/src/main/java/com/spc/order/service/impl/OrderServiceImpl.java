@@ -1,9 +1,8 @@
 package com.spc.order.service.impl;
 
-import com.spc.order.bean.Order;
-import com.spc.order.bean.Product;
 import com.spc.order.service.OrderService;
 import org.springframework.stereotype.Service;
+import com.spc.order.bean.Order;
 
 import java.math.BigDecimal;
 import java.util.List;
