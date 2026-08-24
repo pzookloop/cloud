@@ -15,7 +15,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(Long productId) {
-        log.info("service-product: getProductById");
+        log.info("===========service-product: getProductById==============");
         Product product = new Product();
         product.setId(productId);
         product.setPrice(new BigDecimal("99"));

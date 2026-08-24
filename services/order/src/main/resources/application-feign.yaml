@@ -10,4 +10,5 @@ spring:
           product-feign-client: # high priority
             logger-level: full
             connect-timeout: 3000
-            read-timeout: 5000
+            read-timeout: 2000
+#            retryer: feign.retryer.Default
