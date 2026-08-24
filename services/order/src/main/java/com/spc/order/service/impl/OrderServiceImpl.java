@@ -34,7 +34,8 @@ public class OrderServiceImpl implements OrderService {
         order.setId(1L);
 //        Product product = productFeignClient.getProductById(productId);
 //        Product product = getProductFromRemote(productId);
-        Product product = getProductFromRemoteWithLoadBalancer(productId);
+//        Product product = getProductFromRemoteWithLoadBalancer(productId);
+        Product product = getProductFromRemoteWithLoadBalancerWithAnnotation(productId);
         BigDecimal totalAmount = product.getPrice().multiply(new BigDecimal(product.getNum()));
         order.setTotalAmount(totalAmount);
         order.setTotalAmount(new BigDecimal(90));
@@ -45,13 +46,12 @@ public class OrderServiceImpl implements OrderService {
         return order;
     }
 
-    private Product getProductFromRemote(Long productId) {
+    private Product getProductFromRemoteWithLoadBalancerWithAnnotation(Long productId) {
         // 1.获取所有商品服务所在机器的ip+port
-        List<ServiceInstance> instances = discoveryClient.getInstances("service-product");
-        ServiceInstance serviceInstance = instances.get(0);
-        String uri = "http://" + serviceInstance.getHost() + ":" + serviceInstance.getPort() + "/product/" + productId;
+        String uri = "http://service-product/product/" + productId;
         // 发请求
         log.info("远程请求: {}", uri);
+        // template被负载均衡注解
         Product product = restTemplate.getForObject(uri, Product.class);
         log.info("远程请求成功: {}", product);
         return product;
@@ -61,6 +61,18 @@ public class OrderServiceImpl implements OrderService {
         // 1.获取所有商品服务所在机器的ip+port
         ServiceInstance choose = loadBalancerClient.choose("service-product");
         String uri = "http://" + choose.getHost() + ":" + choose.getPort() + "/product/" + productId;
+        // 发请求
+        log.info("远程请求: {}", uri);
+        Product product = restTemplate.getForObject(uri, Product.class);
+        log.info("远程请求成功: {}", product);
+        return product;
+    }
+
+    private Product getProductFromRemote(Long productId) {
+        // 1.获取所有商品服务所在机器的ip+port
+        List<ServiceInstance> instances = discoveryClient.getInstances("service-product");
+        ServiceInstance serviceInstance = instances.get(0);
+        String uri = "http://" + serviceInstance.getHost() + ":" + serviceInstance.getPort() + "/product/" + productId;
         // 发请求
         log.info("远程请求: {}", uri);
         Product product = restTemplate.getForObject(uri, Product.class);
