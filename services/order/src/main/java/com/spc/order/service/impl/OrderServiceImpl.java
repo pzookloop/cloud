@@ -1,6 +1,7 @@
 package com.spc.order.service.impl;
 
 import com.spc.order.service.OrderService;
+import com.spc.product.bean.Product;
 import org.springframework.stereotype.Service;
 import com.spc.order.bean.Order;
 
@@ -24,5 +25,9 @@ public class OrderServiceImpl implements OrderService {
 //        order.setProductList(List.of(product));
         order.setProductList(List.of());
         return order;
+    }
+
+    private Product getProductFromRemote(Long productId) {
+        return null;
     }
 }
