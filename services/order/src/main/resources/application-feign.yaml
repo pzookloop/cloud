@@ -11,4 +11,6 @@ spring:
             logger-level: full
             connect-timeout: 3000
             read-timeout: 2000
+#            request-interceptors:
+#              - com.spc.order.interceptor.XTokenRequestInterceptor # config request interceptor
 #            retryer: feign.retryer.Default
