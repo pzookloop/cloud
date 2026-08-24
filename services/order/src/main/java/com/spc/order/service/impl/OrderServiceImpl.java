@@ -1,5 +1,6 @@
 package com.spc.order.service.impl;
 
+import com.spc.order.feign.ProductFeignClient;
 import com.spc.order.service.OrderService;
 import com.spc.product.bean.Product;
 import lombok.extern.slf4j.Slf4j;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
 import com.spc.order.bean.Order;
 import org.springframework.web.client.RestTemplate;
@@ -28,14 +30,17 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     RestTemplate restTemplate;
 
+    @Autowired
+    ProductFeignClient productFeignClient;
+
     @Override
     public Order createOrder(Long productId, Long userId) {
         Order order = new Order();
         order.setId(1L);
-//        Product product = productFeignClient.getProductById(productId);
+        Product product = productFeignClient.getProduct(productId);
 //        Product product = getProductFromRemote(productId);
 //        Product product = getProductFromRemoteWithLoadBalancer(productId);
-        Product product = getProductFromRemoteWithLoadBalancerWithAnnotation(productId);
+//        Product product = getProductFromRemoteWithLoadBalancerWithAnnotation(productId);
         BigDecimal totalAmount = product.getPrice().multiply(new BigDecimal(product.getNum()));
         order.setTotalAmount(totalAmount);
         order.setTotalAmount(new BigDecimal(90));
