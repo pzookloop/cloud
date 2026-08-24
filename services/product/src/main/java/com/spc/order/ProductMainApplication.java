@@ -1,4 +1,4 @@
-package com.spc.product;
+package com.spc.order;
 
 
 import org.springframework.boot.SpringApplication;

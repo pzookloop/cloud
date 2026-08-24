@@ -1,4 +1,4 @@
-package com.spc.product;
+package com.spc.order;
 
 import com.alibaba.cloud.nacos.discovery.NacosServiceDiscovery;
 import com.alibaba.nacos.api.exception.NacosException;
