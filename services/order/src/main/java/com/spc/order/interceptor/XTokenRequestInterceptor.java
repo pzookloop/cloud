@@ -9,7 +9,7 @@ import java.util.UUID;
 
 
 @Component
-public class XTokenRequestInterceptor implements RequestInterceptor {
+public class XTokenRequestInterceptor implements RequestInterceptor { // 默认每个远程调用生效生效
     @Override
     public void apply(RequestTemplate template) {
         System.out.println("feign请求拦截器启动");
