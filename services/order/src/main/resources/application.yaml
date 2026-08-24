@@ -13,7 +13,9 @@ spring:
         import-check:
           enabled: false
         namespace: ${spring.profiles.active:public}
-
+logging:
+  level:
+    com.spc.order.feign: debug
 
 ---
 spring:
