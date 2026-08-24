@@ -37,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
     public Order createOrder(Long productId, Long userId) {
         Order order = new Order();
         order.setId(1L);
-        Product product = productFeignClient.getProduct(productId);
+        Product product = productFeignClient.getProductById(productId);
 //        Product product = getProductFromRemote(productId);
 //        Product product = getProductFromRemoteWithLoadBalancer(productId);
 //        Product product = getProductFromRemoteWithLoadBalancerWithAnnotation(productId);

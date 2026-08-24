@@ -19,7 +19,7 @@ public class ProductController {
 
 
     @GetMapping("/product/{id}")
-    public Product getProduct(@PathVariable("id") Long productId, HttpServletRequest servletRequest) {
+    public Product getProductById(@PathVariable("id") Long productId, HttpServletRequest servletRequest) {
         log.info("===========service-product: {} ==============", servletRequest.getHeader("X-Token"));
         return productService.getProductById(productId);
     }

@@ -23,6 +23,7 @@ public class ProductServiceImpl implements ProductService {
 //            throw new RuntimeException("超时");
 //        }
 
+//        int a = 1 / 0; 远程服务起不来, 超时, 异常都会走feign的兜底回调
         return product;
     }
 }
