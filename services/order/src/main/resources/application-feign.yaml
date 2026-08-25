@@ -10,7 +10,7 @@ spring:
           product-feign-client: # high priority
             logger-level: full
             connect-timeout: 3000
-            read-timeout: 2000
+            read-timeout: 10000
     sentinel:
       transport:
         dashboard: localhost:8080
