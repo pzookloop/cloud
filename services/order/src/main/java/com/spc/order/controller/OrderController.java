@@ -2,7 +2,6 @@ package com.spc.order.controller;
 
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
-import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.spc.order.bean.Order;
 import com.spc.order.properties.OrderProperties;
 import com.spc.order.service.OrderService;
