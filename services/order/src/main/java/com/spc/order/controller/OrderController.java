@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 //@RefreshScope // 自动刷新来自nacos的配置
 @Slf4j
 @RestController
+// @RequestMapping("/api/order")
 public class OrderController {
 
     @Autowired
