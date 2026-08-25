@@ -28,6 +28,15 @@ public class OrderController {
         return orderService.createOrder(productId, userId);
     }
 
+//    链路流控测试
+    @GetMapping("/seckill")
+    public Order seckill(@RequestParam("userId") Long userId,
+                             @RequestParam("productId") Long productId) {
+        Order order = orderService.createOrder(productId, userId);
+        order.setId(Long.MAX_VALUE);
+        return order;
+    }
+
 
     @Autowired
     OrderProperties orderProperties;
