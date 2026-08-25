@@ -1,6 +1,8 @@
 package com.spc.order.service.impl;
 
+import com.alibaba.csp.sentinel.SphU;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.spc.order.feign.ProductFeignClient;
 import com.spc.order.service.OrderService;
 import com.spc.product.bean.Product;
@@ -34,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     ProductFeignClient productFeignClient;
 
-    @SentinelResource(value = "createOrder")
+    @SentinelResource(value = "createOrder", blockHandler = "createOrderFallback")
     @Override
     public Order createOrder(Long productId, Long userId) {
         Order order = new Order();
@@ -50,6 +52,29 @@ public class OrderServiceImpl implements OrderService {
         order.setNickname("abbc");
         order.setAddress("shanghai");
         order.setProductList(List.of(product));
+//        try {
+//            SphU.entry("haha");
+//            order.setTotalAmount(totalAmount);
+//            order.setTotalAmount(new BigDecimal(90));
+//            order.setUserId(userId);
+//            order.setNickname("abbc");
+//            order.setAddress("shanghai");
+//            order.setProductList(List.of(product));
+//        } catch (BlockException e) {
+//            // 编码处理异常
+//            throw new RuntimeException();
+//        }
+        return order;
+    }
+
+    // 执行兜底回调, 当sentinel限制了方法后, 通过BlockException知道原因
+    public Order createOrderFallback(Long productId, Long userId, BlockException e) {
+        Order order = new Order();
+        order.setId(0L);
+        order.setTotalAmount(new BigDecimal(0));
+        order.setUserId(userId);
+        order.setNickname("未知用户");
+        order.setAddress("异常信息: " + e.getClass());
         return order;
     }
 
