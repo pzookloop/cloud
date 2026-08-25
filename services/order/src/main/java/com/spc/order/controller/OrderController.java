@@ -37,6 +37,16 @@ public class OrderController {
         return order;
     }
 
+    @GetMapping("/writeDb")
+    public String write() {
+        return "write DB success";
+    }
+
+    @GetMapping("/readDb")
+    public String readDb() {
+        return "read DB success";
+    }
+
 
     @Autowired
     OrderProperties orderProperties;
