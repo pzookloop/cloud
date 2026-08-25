@@ -45,7 +45,7 @@ public class OrderController {
     // 这个方法只能作为SentinelResource中blockHandler, 如果SentinelResource要用fallback, 则需要seckillFallback的异常由BlockException变为Throwable
     public Order seckillFallback(Long userId,
                                  Long productId,
-                                 BlockException e) {
+                                 Throwable e) {
         log.info("+++++++热点参数测试, seckillFallback兜底回调调用+++++++");
         Order order = new Order();
         order.setId(productId);
