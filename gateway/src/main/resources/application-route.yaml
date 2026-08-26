@@ -16,6 +16,7 @@ spring:
             # 类似把 /api/order/a/bc 重写为 /a/bc，移除路径前的 /api/order/
             - RewritePath=/api/order/?(?<segment>.*), /$\{segment}
             # 自定义过滤器
+#            - AddResponseHeader=X-Response-Abc, 123
           order: 1
         - id: product-route
           uri: lb://service-product
@@ -41,3 +42,5 @@ spring:
                 param: user
                 value: boooo
           order: 3
+      default-filters:
+        - AddResponseHeader=X-Response-Abc, 123
