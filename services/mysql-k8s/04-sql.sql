@@ -1,7 +1,7 @@
-CREATE
-DATABASE IF NOT EXISTS `storage_db`;
-USE
-`storage_db`;
+# CREATE
+# DATABASE IF NOT EXISTS `storage_db`;
+# USE
+# `storage_db`;
 
 DROP TABLE IF EXISTS `storage_tbl`;
 CREATE TABLE `storage_tbl`
@@ -35,10 +35,10 @@ CREATE TABLE `undo_log`
     UNIQUE KEY `ux_undo_log` (`xid`, `branch_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-CREATE
-DATABASE IF NOT EXISTS `order_db`;
-USE
-`order_db`;
+# CREATE
+# DATABASE IF NOT EXISTS `order_db`;
+# USE
+# `order_db`;
 
 DROP TABLE IF EXISTS `order_tbl`;
 CREATE TABLE `order_tbl`
@@ -68,10 +68,10 @@ CREATE TABLE `undo_log`
     UNIQUE KEY `ux_undo_log` (`xid`, `branch_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-CREATE
-DATABASE IF NOT EXISTS `account_db`;
-USE
-`account_db`;
+# CREATE
+# DATABASE IF NOT EXISTS `account_db`;
+# USE
+# `account_db`;
 
 DROP TABLE IF EXISTS `account_tbl`;
 CREATE TABLE `account_tbl`
