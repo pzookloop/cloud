@@ -28,5 +28,16 @@ spring:
         - id: bing-route
           uri: https://www.bing.com/
           predicates:
-            - Path=/**
+            - name: Path
+              args:
+                patterns: /search
+            - name: Query
+              args:
+                param: q
+                regexp: haha
+            # - Vip=user,boooo
+            - name: Vip
+              args:
+                param: user
+                value: boooo
           order: 3
