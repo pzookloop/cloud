@@ -17,6 +17,7 @@ spring:
             - RewritePath=/api/order/?(?<segment>.*), /$\{segment}
             # 自定义过滤器
 #            - AddResponseHeader=X-Response-Abc, 123
+            - OnceToken=X-Response-Token, jwt
           order: 1
         - id: product-route
           uri: lb://service-product
