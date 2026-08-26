@@ -25,3 +25,8 @@ spring:
           filters:
             - RewritePath=/api/product/?(?<segment>.*), /$\{segment}
           order: 2
+        - id: bing-route
+          uri: https://www.bing.com/
+          predicates:
+            - Path=/**
+          order: 3
