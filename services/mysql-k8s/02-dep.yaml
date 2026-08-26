@@ -1,0 +1,113 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+  namespace: spring-cloud
+data:
+  custom.cnf: |
+    [mysqld]
+    # 设置默认字符集为 utf8mb4
+    character-set-server = utf8mb4
+    collation-server = utf8mb4_unicode_ci
+    
+    # 设置表名不区分大小写（必须在初始化时指定）
+    lower_case_table_names = 1
+    
+    # 允许最大连接数
+    max_connections = 1000
+
+    # 如果你的微服务 JDBC 驱动版本较老（小于 8.0.30），需要取消下面这行注释以兼容旧版密码认证：
+    # mysql_native_password = ON
+    
+    [client]
+    default-character-set = utf8mb4
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-sfs
+  namespace: spring-cloud
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+      app.kubernetes.io/name: mysql
+  serviceName: "mysql-svc"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mysql
+        app.kubernetes.io/name: mysql
+    spec:
+      containers:
+        - image: mysql:8.4.11
+          name: mysql
+          env:
+            # Use secret in real usage
+            - name: MYSQL_ROOT_PASSWORD
+              value: password
+          ports:
+            - containerPort: 3306
+              name: mysql-port
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+            - name: config-volume
+              mountPath: /etc/mysql/conf.d
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+            limits:
+              cpu: "2"
+              memory: "2Gi"
+      volumes:
+        - name: config-volume
+          configMap:
+            name: mysql-config
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-persistent-storage
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 5Gi
+        storageClassName: nfs-client
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-svc
+  labels:
+    app: mysql-svc
+    app.kubernetes.io/name: mysql-svc
+  namespace: spring-cloud
+spec:
+  ports:
+    - name: mysql-port
+      protocol: TCP
+      port: 3306
+      targetPort: 3306
+  clusterIP: None
+  selector:
+    app: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ext-spring-cloud-mysql-svc
+  labels:
+    app: ext-spring-cloud-mysql-svc
+    app.kubernetes.io/name: ext-spring-cloud-mysql-svc
+  namespace: spring-cloud
+spec:
+  ports:
+    - name: ext-spring-cloud-mysql-port
+      port: 3306
+      targetPort: 3306
+      nodePort: 31036
+  selector:
+    app: mysql
+  type: NodePort
