@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: service-mail
+  datasource:
+    url: ${MAIL_DB_URL:jdbc:mysql://127.0.0.1:3306/mail_db?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai}
+    username: ${MAIL_DB_USERNAME:root}
+    password: ${MAIL_DB_PASSWORD:password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  mail:
+    host: ${MAIL_SMTP_HOST:}
+    port: ${MAIL_SMTP_PORT:587}
+    username: ${MAIL_SMTP_USERNAME:}
+    password: ${MAIL_SMTP_PASSWORD:}
+    properties:
+      mail.smtp.auth: ${MAIL_SMTP_AUTH:true}
+      mail.smtp.starttls.enable: ${MAIL_SMTP_STARTTLS_ENABLE:true}
+  cloud:
+    nacos:
+      server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
+      config:
+        import-check:
+          enabled: false
+
+server:
+  port: ${MAIL_SERVER_PORT:20010}
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+# 与 SMTP 认证账号不同时，可通过 MAIL_SENDER 指定发件人。
+mail:
+  sender: ${MAIL_SENDER:${MAIL_SMTP_USERNAME:}}
